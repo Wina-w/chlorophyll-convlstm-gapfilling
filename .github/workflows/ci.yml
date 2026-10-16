@@ -1,0 +1,67 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# setup-uv creates and activates .venv (activate-environment), so `uv pip install` targets it;
+# `--system` would bypass it and hit the runner's externally-managed Python (PEP 668).
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.12"
+          activate-environment: true
+      - run: uv pip install "ruff==0.16.10"   # = the [dev] pin
+      - run: ruff check . && ruff format --check .
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          activate-environment: true
+      - run: uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: uv pip install -e ".[dev,track]"
+      - run: pytest -q          # synthetic fixtures only: no data download
+        env:
+          MLFLOW_DISABLE_AGENT_HINT: "1"
+
+  smoke-cli:
+    # a fresh clone must be able to train, evaluate and predict without real data: run the README
+    # quick start verbatim (between its quickstart markers), then check it left every tracked file alone
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+      - run: sed -n '/<!-- quickstart:begin -->/,/<!-- quickstart:end -->/p' README.md | grep -v -e '^<!--' -e '^```' > "$RUNNER_TEMP/quickstart.sh"
+      - run: cat "$RUNNER_TEMP/quickstart.sh" && bash -e "$RUNNER_TEMP/quickstart.sh"
+        env:
+          MLFLOW_DISABLE_AGENT_HINT: "1"
+      - run: git status --porcelain && test -z "$(git status --porcelain)"
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t chl-gapfill .
+      - run: docker run --rm chl-gapfill --version
+      - name: smoke run inside the image (synthetic data, no mounts)
+        run: |
+          docker run --rm --entrypoint sh chl-gapfill -c '
+            set -e
+            python scripts/make_synthetic_data.py --out /tmp/synth
+            export CHL_DATA_DIR=/tmp/synth CHL_MODEL_DIR=/tmp/models CHL_OUTPUT_DIR=/tmp/out
+            chl-gapfill train    -c configs/synthetic_smoke.yaml --no-mlflow
+            chl-gapfill evaluate -c configs/synthetic_smoke.yaml --n-boot 20 --no-figures
+            chl-gapfill predict  -c configs/synthetic_smoke.yaml --date 2022-04-20 --png
+            ls /tmp/out'

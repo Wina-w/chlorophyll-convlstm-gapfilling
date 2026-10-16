@@ -1,0 +1,11 @@
+# Allowlist: the image is built from these paths only, so data, checkpoints, runs,
+# .env secrets and local notes never enter the build context.
+*
+!pyproject.toml
+!README.md
+!LICENSE
+!src/
+!configs/
+!scripts/
+**/__pycache__
+**/*.egg-info

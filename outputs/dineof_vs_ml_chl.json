@@ -1,0 +1,435 @@
+{
+  "grid": [
+    20,
+    20
+  ],
+  "n_days": 1881,
+  "n_test_days": 50,
+  "space": "log10(chl)",
+  "target": "NOAA's DINEOF gap-filled VIIRS S-NPP+NOAA-20 chlorophyll (ERDDAP nesdisVHNnoaaSNPPnoaa20chlaGapfilledDaily)",
+  "bootstrap": {
+    "n_boot": 1000,
+    "unit": "test day",
+    "seed": 42
+  },
+  "sensor_offsets_log10": {
+    "modis_aqua": -0.012605071067810059,
+    "viirs_snpp": -0.008677605539560318,
+    "viirs_noaa20": -0.002469803672283888
+  },
+  "dineof": {
+    "params": {
+      "alpha": 0.0,
+      "neini": 1,
+      "toliter": 0.01,
+      "nev_start": 50,
+      "nev_max": 200
+    },
+    "designs": {
+      "obs": {
+        "input": "the real sensor observations (offset to the target's level), real gaps, test holes removed",
+        "observed_frac": 0.2184250398724083,
+        "runs": [
+          {
+            "nev": 50,
+            "n_modes": 35,
+            "cv_error": 0.0897,
+            "cap_hit": false
+          }
+        ]
+      },
+      "target_at_obs": {
+        "input": "the target's values on the pixels the sensors saw (same gaps), test holes removed",
+        "observed_frac": 0.2184250398724083,
+        "runs": [
+          {
+            "nev": 50,
+            "n_modes": 47,
+            "cv_error": 0.0303,
+            "cap_hit": false
+          }
+        ]
+      },
+      "clean_cube": {
+        "input": "the gap-free target with only the test holes removed: leaky upper bound, not a comparison",
+        "observed_frac": 0.9909728867623604,
+        "runs": [
+          {
+            "nev": 50,
+            "n_modes": 46,
+            "cv_error": 0.0283,
+            "cap_hit": false
+          }
+        ]
+      }
+    }
+  },
+  "all_hole_px_vs_target": {
+    "n": 6792,
+    "n_days": 50,
+    "methods": {
+      "convlstm": {
+        "rmse": {
+          "point": 0.13700142427095158,
+          "lo": 0.12017527721043869,
+          "hi": 0.15378101303147965
+        },
+        "r2": 0.7428455669776928,
+        "bias": 0.004426360263042722
+      },
+      "dineof_obs": {
+        "rmse": {
+          "point": 0.23195169907156715,
+          "lo": 0.20474038522634105,
+          "hi": 0.26283330084665313
+        },
+        "r2": 0.262878688824409,
+        "bias": -0.036007762419656295
+      },
+      "dineof_target_at_obs": {
+        "rmse": {
+          "point": 0.13226383294156152,
+          "lo": 0.1152096072689115,
+          "hi": 0.14816190527321627
+        },
+        "r2": 0.7603231658328109,
+        "bias": 0.008912570679622813
+      },
+      "dineof_clean_cube": {
+        "rmse": {
+          "point": 0.099933630809834,
+          "lo": 0.07989496802946847,
+          "hi": 0.12488374277082119
+        },
+        "r2": 0.8631744557417995,
+        "bias": -0.005022517020167392
+      }
+    },
+    "diff": {
+      "dineof_obs_minus_convlstm": {
+        "point": 0.09495027480061558,
+        "lo": 0.06896481734624356,
+        "hi": 0.12963520664276634,
+        "n_days": 50,
+        "degenerate": false,
+        "resolved": true
+      },
+      "dineof_target_at_obs_minus_convlstm": {
+        "point": -0.004737591329390056,
+        "lo": -0.024525317775454972,
+        "hi": 0.012539388688902975,
+        "n_days": 50,
+        "degenerate": false,
+        "resolved": false
+      },
+      "dineof_clean_cube_minus_convlstm": {
+        "point": -0.037067793461117576,
+        "lo": -0.06398084659454648,
+        "hi": -0.008272299335676695,
+        "n_days": 50,
+        "degenerate": false,
+        "resolved": true
+      }
+    }
+  },
+  "persistence_px_vs_target": {
+    "n": 4087,
+    "n_days": 45,
+    "methods": {
+      "convlstm": {
+        "rmse": {
+          "point": 0.10902663570674316,
+          "lo": 0.09247977434644829,
+          "hi": 0.12733151934987239
+        },
+        "r2": 0.8289671487845531,
+        "bias": -0.02332807578290474
+      },
+      "persistence": {
+        "rmse": {
+          "point": 0.14292411890697157,
+          "lo": 0.13099212294054316,
+          "hi": 0.1555222726638265
+        },
+        "r2": 0.7060825569595529,
+        "bias": -0.02156059284028416
+      },
+      "dineof_obs": {
+        "rmse": {
+          "point": 0.2211650766892579,
+          "lo": 0.18154499724101492,
+          "hi": 0.26864667824653293
+        },
+        "r2": 0.29620299516880766,
+        "bias": -0.061926608517354
+      }
+    },
+    "diff": {
+      "persistence_minus_convlstm": {
+        "point": 0.03389748320022841,
+        "lo": 0.01977735089511481,
+        "hi": 0.048560042314786424,
+        "n_days": 45,
+        "degenerate": false,
+        "resolved": true
+      },
+      "dineof_obs_minus_convlstm": {
+        "point": 0.11213844098251473,
+        "lo": 0.07208475067560519,
+        "hi": 0.16050759242569074,
+        "n_days": 45,
+        "degenerate": false,
+        "resolved": true
+      }
+    }
+  },
+  "observed_px_vs_target": {
+    "n": 4300,
+    "n_days": 49,
+    "methods": {
+      "convlstm": {
+        "rmse": {
+          "point": 0.11552973120533419,
+          "lo": 0.09878777793579967,
+          "hi": 0.1313234558345254
+        },
+        "r2": 0.8179947839327047,
+        "bias": -0.002858390602781329
+      },
+      "dineof_obs": {
+        "rmse": {
+          "point": 0.21286171589536734,
+          "lo": 0.17596083011878674,
+          "hi": 0.26201360053836725
+        },
+        "r2": 0.3821380849335839,
+        "bias": -0.04699833837603449
+      },
+      "dineof_target_at_obs": {
+        "rmse": {
+          "point": 0.08510705265288503,
+          "lo": 0.07282175019433193,
+          "hi": 0.09636843964285295
+        },
+        "r2": 0.9012294640941249,
+        "bias": 0.003916717836024852
+      },
+      "dineof_clean_cube": {
+        "rmse": {
+          "point": 0.09110880994963719,
+          "lo": 0.07130946208180691,
+          "hi": 0.1112132741549889
+        },
+        "r2": 0.8868076551432388,
+        "bias": -0.005007531571372542
+      }
+    },
+    "diff": {
+      "dineof_obs_minus_convlstm": {
+        "point": 0.09733198469003315,
+        "lo": 0.05719962383223204,
+        "hi": 0.15192243147357737,
+        "n_days": 49,
+        "degenerate": false,
+        "resolved": true
+      },
+      "dineof_target_at_obs_minus_convlstm": {
+        "point": -0.030422678552449164,
+        "lo": -0.04718835179098884,
+        "hi": -0.015071741545238264,
+        "n_days": 49,
+        "degenerate": false,
+        "resolved": true
+      },
+      "dineof_clean_cube_minus_convlstm": {
+        "point": -0.024420921255697003,
+        "lo": -0.04954865596697793,
+        "hi": 0.0019488636263364854,
+        "n_days": 49,
+        "degenerate": false,
+        "resolved": false
+      }
+    }
+  },
+  "observed_px_vs_observation": {
+    "n": 4300,
+    "n_days": 49,
+    "methods": {
+      "convlstm": {
+        "rmse": {
+          "point": 0.18434781672049422,
+          "lo": 0.16825628249500962,
+          "hi": 0.20103908562826295
+        },
+        "r2": 0.6551170780892228,
+        "bias": 0.03670627555168277
+      },
+      "dineof_obs": {
+        "rmse": {
+          "point": 0.20512353954111243,
+          "lo": 0.17018480464329108,
+          "hi": 0.25363521216237656
+        },
+        "r2": 0.5730011590794313,
+        "bias": -0.007433672221570389
+      },
+      "dineof_target_at_obs": {
+        "rmse": {
+          "point": 0.17661537640547667,
+          "lo": 0.16479404663386563,
+          "hi": 0.18906153011885823
+        },
+        "r2": 0.6834424218047268,
+        "bias": 0.04348138399048895
+      },
+      "dineof_clean_cube": {
+        "rmse": {
+          "point": 0.18623212316895094,
+          "lo": 0.1694981638666304,
+          "hi": 0.2033396435554705
+        },
+        "r2": 0.6480306214652304,
+        "bias": 0.03455713458309156
+      }
+    },
+    "diff": {
+      "dineof_obs_minus_convlstm": {
+        "point": 0.02077572282061821,
+        "lo": -0.015844955285362047,
+        "hi": 0.07368398317933592,
+        "n_days": 49,
+        "degenerate": false,
+        "resolved": false
+      },
+      "dineof_target_at_obs_minus_convlstm": {
+        "point": -0.007732440315017547,
+        "lo": -0.0227735026199762,
+        "hi": 0.0075136860369483605,
+        "n_days": 49,
+        "degenerate": false,
+        "resolved": false
+      },
+      "dineof_clean_cube_minus_convlstm": {
+        "point": 0.0018843064484567185,
+        "lo": -0.017423223391200848,
+        "hi": 0.0250838583252667,
+        "n_days": 49,
+        "degenerate": false,
+        "resolved": false
+      }
+    }
+  },
+  "provenance": {
+    "checkpoint": {
+      "file": "convlstm_latest.pth",
+      "sha256": "f25ca9295c3aed17867c571d086faaf798d2491f2a600856c4e4e1091571d9ec",
+      "bytes": 1563015
+    },
+    "config_hash": "68ad484fba3c",
+    "config": {
+      "name": "convlstm_fusion",
+      "experiment": "chl-gapfill",
+      "task": "gapfill",
+      "input_days": 3,
+      "log_transform": true,
+      "seed": 42,
+      "region": {
+        "lat_bounds": [
+          22.95,
+          24.55
+        ],
+        "lon_bounds": [
+          118.1,
+          119.75
+        ]
+      },
+      "data": {
+        "train_nc": "Merged_VIIRS_CHL_Daily.nc",
+        "var_name": "chlor_a",
+        "input_sensors": null,
+        "fusion": true,
+        "min_coverage": 0.2,
+        "contiguous_windows": true,
+        "self_supervised": false,
+        "start": "2018-05-30",
+        "end": "2023-08-31"
+      },
+      "mask": {
+        "min_frac": 0.1,
+        "max_frac": 0.4,
+        "n_blobs": 3
+      },
+      "model": {
+        "name": "convlstm",
+        "hidden_channels": [
+          64,
+          32
+        ],
+        "kernel_size": 3,
+        "use_norm": true,
+        "dropout": 0.0
+      },
+      "training": {
+        "lr": 0.001,
+        "n_epochs": 1000,
+        "patience": 12,
+        "batch_size": 16,
+        "lr_schedule": true,
+        "grad_clip": null,
+        "num_threads": null,
+        "loss": {
+          "w_hole": 1.0,
+          "w_valid": 0.1,
+          "w_grad": 0.05
+        }
+      },
+      "split": {
+        "train_end": "2021-12-31",
+        "val_start": "2022-01-01",
+        "val_end": "2022-03-31",
+        "test_start": "2022-04-01",
+        "test_end": "2022-07-25",
+        "gap_days": 0
+      },
+      "smoke": false
+    },
+    "data": {
+      "target": {
+        "file": "Merged_VIIRS_CHL_Daily.nc",
+        "sha256": "3da78f49f6e62c3572f97bb95046062eb87fa381ec71f4d8cbb4d3c7ab34273a",
+        "bytes": 5135845
+      },
+      "sensors": {
+        "modis_aqua": {
+          "file": "modis_aqua.nc",
+          "sha256": "b7cf845ba78a01d1933cbe3a54feafca42583c86cb81b9affcca6ff70a9072aa",
+          "bytes": 9065200
+        },
+        "viirs_snpp": {
+          "file": "viirs_snpp.nc",
+          "sha256": "4a2b35133523b8dbcbd49362f957483ab72e968a4ec2cf672bfa15e13b44f2d9",
+          "bytes": 11321209
+        },
+        "viirs_noaa20": {
+          "file": "viirs_noaa20.nc",
+          "sha256": "4cebc76af71a9cc3e7b8e5b6857ebdb39f5ffff675df140022d026319a37bdb3",
+          "bytes": 5492691
+        }
+      },
+      "first_day": "2018-05-30",
+      "last_day": "2023-08-31",
+      "n_days": 1881,
+      "test_days": {
+        "first": "2022-04-03",
+        "last": "2022-07-25",
+        "n": 50
+      }
+    },
+    "versions": {
+      "chl_gapfill": "1.0.0",
+      "python": "3.12.1",
+      "numpy": "2.5.3",
+      "torch": "2.14.1+cpu"
+    }
+  }
+}

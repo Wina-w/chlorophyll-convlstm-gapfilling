@@ -1,0 +1,79 @@
+# ---- environments ----
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# ---- credentials ----
+.env
+*.env
+.env.*
+!.env.example
+*_auth_config.json
+*credentials*
+*secret*
+.netrc
+.sentinel_cookies/
+
+# ---- private, kept locally only (never publish) ----
+# Original prototype, co-developed with a colleague, and its figures.
+legacy/
+figures/
+outputs/sample_prediction.png
+# Private working notes.
+roadmap.md
+*_PRIVATE.md
+notes/
+# Local assistant instructions and settings, in any letter case (a single-case bracket such as [C]
+# fails to match on case-insensitive checkouts, e.g. Windows with core.ignorecase).
+[Cc][Ll][Aa][Uu][Dd][Ee].md
+.[Cc][Ll][Aa][Uu][Dd][Ee]/
+
+# ---- large data (fetch with `chl-gapfill download` or point CHL_DATA_DIR at local files) ----
+data/*
+!data/README.md
+
+# ---- data / model formats, wherever they appear ----
+*.nc
+*.nc4
+*.h5
+*.hdf
+*.hdf5
+*.mat
+*.npy
+*.npz
+*.pth
+*.pt
+*.ckpt
+*.tif
+*.tiff
+*.zip
+*.parquet
+
+# ---- model checkpoints, experiment tracking, DINEOF intermediate work ----
+models/
+mlruns/
+mlartifacts/
+outputs/dineof_work/
+outputs/**/Output/
+*.log
+
+# ---- smoke runs on synthetic data (quick start, CI): never mixed with the published outputs/ ----
+data_synth/
+outputs_smoke/
+
+# ---- editors / OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.asv

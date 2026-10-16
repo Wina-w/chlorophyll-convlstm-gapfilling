@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=77"]  # PEP 639 license metadata
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chl-gapfill"
+version = "1.0.0"
+description = "Multi-sensor chlorophyll-a cloud gap-filling with ConvLSTM / partial-conv U-Net, evaluated against DINEOF and classical baselines"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Wen-Chuan Wu", email = "wina135246@gmail.com"}]
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "numpy>=1.26,<3",
+    "scipy>=1.12,<2",
+    "netCDF4>=1.6,<2",
+    "xarray>=2024.1,<2027",
+    "h5py>=3.10,<4",             # was missing from the old requirements.txt (s3_chl_data needs it)
+    "requests>=2.31,<3",
+    "matplotlib>=3.8,<4",
+    "scikit-image>=0.22,<1",
+    "PyYAML>=6.0,<7",
+    "pydantic>=2.6,<3",
+    "python-dotenv>=1.0,<2",
+    "torch>=2.4,<3",             # CPU wheel: pip install torch --index-url https://download.pytorch.org/whl/cpu
+]
+
+[project.optional-dependencies]
+track = ["mlflow>=3.0,<4"]
+dev = ["pytest>=8.0,<9", "ruff==0.16.10"]  # ruff pinned: its rules and formatting change between minor versions
+
+[project.scripts]
+chl-gapfill = "chl_gapfill.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "slow: training smokes (tens of seconds)",
+    "network: touches ERDDAP",
+]
+filterwarnings = [
+    # raised inside netCDF4 (1.7.x) on every array write under NumPy >= 2.5; not this package's code
+    "ignore:Setting the shape on a NumPy array has been deprecated:DeprecationWarning",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["src", "tests"]
+extend-exclude = ["legacy", "scripts/experiments", "notebooks"]  # research scripts; the Colab notebook
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "W"]
+ignore = ["E501", "E402"]

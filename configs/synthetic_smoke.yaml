@@ -1,0 +1,11 @@
+# Runs on the synthetic dataset from scripts/make_synthetic_data.py (8x8, 120 days, 2022-01-01..04-30).
+# Used by CI and by a fresh clone to prove the loop; never for results.
+name: synthetic_smoke
+experiment: chl-gapfill
+smoke: true
+input_days: 3
+region: {lat_bounds: [23.0, 24.0], lon_bounds: [118.5, 119.5]}
+data: {input_sensors: [modis_aqua, viirs_snpp], min_coverage: 0.2}
+model: {name: convlstm, hidden_channels: [8, 4], kernel_size: 3, use_norm: true}
+training: {lr: 0.001, n_epochs: 2, patience: 2, batch_size: 8}
+split: {train_end: 2022-03-21, val_start: 2022-03-22, val_end: 2022-04-10, test_start: 2022-04-11, test_end: 2022-04-30, gap_days: 0}

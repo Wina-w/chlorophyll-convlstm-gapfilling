@@ -1,0 +1,303 @@
+{
+  "n_test_days": 112,
+  "min_coverage": 0.0,
+  "methods": {
+    "persistence": {
+      "logRMSE": {
+        "point": 0.1556192865658854,
+        "lo": 0.13652101213071371,
+        "hi": 0.17521972896320642
+      },
+      "logR2": {
+        "point": 0.6776521659067161,
+        "lo": 0.5758260126949566,
+        "hi": 0.7565079128249871
+      },
+      "n": 6552
+    },
+    "single:modis_aqua": {
+      "logRMSE": {
+        "point": 0.18558926155482638,
+        "lo": 0.17225312576646276,
+        "hi": 0.20021165626795998
+      },
+      "logR2": {
+        "point": 0.6031872649058692,
+        "lo": 0.5399131219037728,
+        "hi": 0.6588094985191736
+      },
+      "n": 14625
+    },
+    "single:viirs_snpp": {
+      "logRMSE": {
+        "point": 0.20502978675973452,
+        "lo": 0.19161638981476664,
+        "hi": 0.21951583330819352
+      },
+      "logR2": {
+        "point": 0.5157007078883578,
+        "lo": 0.4298772821693192,
+        "hi": 0.5776771177623122
+      },
+      "n": 14625
+    },
+    "single:viirs_noaa20": {
+      "logRMSE": {
+        "point": 0.17925756991548988,
+        "lo": 0.16379901377800396,
+        "hi": 0.19535268276952789
+      },
+      "logR2": {
+        "point": 0.6298012708319927,
+        "lo": 0.5689987407434863,
+        "hi": 0.679445807764566
+      },
+      "n": 14625
+    },
+    "fusion": {
+      "logRMSE": {
+        "point": 0.1755597669555521,
+        "lo": 0.16149037492766258,
+        "hi": 0.19024565836269938
+      },
+      "logR2": {
+        "point": 0.6449169794625204,
+        "lo": 0.5854195582817144,
+        "hi": 0.6943413120157966
+      },
+      "n": 14625
+    }
+  },
+  "paired_vs_fusion": {
+    "n": 14625,
+    "n_days": 112,
+    "methods": {
+      "single:modis_aqua": {
+        "rmse": {
+          "point": 0.18558926155482638,
+          "lo": 0.17225312576646276,
+          "hi": 0.20021165626795998
+        },
+        "r2": 0.6031872649058692,
+        "bias": 0.052292618701600624
+      },
+      "single:viirs_snpp": {
+        "rmse": {
+          "point": 0.20502978675973452,
+          "lo": 0.19161638981476664,
+          "hi": 0.21951583330819352
+        },
+        "r2": 0.5157007078883578,
+        "bias": 0.09855393402087383
+      },
+      "single:viirs_noaa20": {
+        "rmse": {
+          "point": 0.17925756991548988,
+          "lo": 0.16379901377800396,
+          "hi": 0.19535268276952789
+        },
+        "r2": 0.6298012708319927,
+        "bias": 0.050588387844908954
+      },
+      "fusion": {
+        "rmse": {
+          "point": 0.1755597669555521,
+          "lo": 0.16149037492766258,
+          "hi": 0.19024565836269938
+        },
+        "r2": 0.6449169794625204,
+        "bias": 0.05123953587479062
+      }
+    },
+    "diff": {
+      "single:modis_aqua_minus_fusion": {
+        "point": 0.010029494599274297,
+        "lo": 0.003495358562271058,
+        "hi": 0.016514487495046654,
+        "n_days": 112,
+        "degenerate": false,
+        "resolved": true
+      },
+      "single:viirs_snpp_minus_fusion": {
+        "point": 0.02947001980418243,
+        "lo": 0.02172305027805985,
+        "hi": 0.03889837154817877,
+        "n_days": 112,
+        "degenerate": false,
+        "resolved": true
+      },
+      "single:viirs_noaa20_minus_fusion": {
+        "point": 0.003697802959937796,
+        "lo": -0.0036782075212521033,
+        "hi": 0.011125210197893495,
+        "n_days": 112,
+        "degenerate": false,
+        "resolved": false
+      }
+    }
+  },
+  "persistence_px": {
+    "n": 6552,
+    "n_days": 81,
+    "methods": {
+      "fusion": {
+        "rmse": {
+          "point": 0.12657334773599727,
+          "lo": 0.10985745662056329,
+          "hi": 0.14527379316064584
+        },
+        "r2": 0.7867532355994403,
+        "bias": 0.011513377345930125
+      },
+      "persistence": {
+        "rmse": {
+          "point": 0.1556192865658854,
+          "lo": 0.13729867976166235,
+          "hi": 0.17570989558665828
+        },
+        "r2": 0.6776521659067161,
+        "bias": -0.028884218706350242
+      }
+    },
+    "diff": {
+      "persistence_minus_fusion": {
+        "point": 0.029045938829888124,
+        "lo": 0.016347603647086068,
+        "hi": 0.042960465938541394,
+        "n_days": 81,
+        "degenerate": false,
+        "resolved": true
+      }
+    }
+  },
+  "provenance": {
+    "checkpoint": {
+      "single:modis_aqua": {
+        "file": "convlstm_single_modis_aqua.pth",
+        "sha256": "b68c8bd97b132ef1983c747a9d4c72d075bdbef70f83dbac2a744575777f77f7",
+        "bytes": 1526677
+      },
+      "single:viirs_snpp": {
+        "file": "convlstm_single_viirs_snpp.pth",
+        "sha256": "4e1e6395df5a2da6bd5fb3d83d35d4ca3104062e90285ac3a2dcecadb567408e",
+        "bytes": 1526677
+      },
+      "single:viirs_noaa20": {
+        "file": "convlstm_single_viirs_noaa20.pth",
+        "sha256": "80999d0b6d5c61637d165868a808cbf62f8d1c29fe421e6e24e845b3ca172df9",
+        "bytes": 1526761
+      },
+      "fusion": {
+        "file": "convlstm_fusion_shared.pth",
+        "sha256": "c7105b0bda1fc0692e023e7e778fe6419153597c1fd97682485d3771f2134682",
+        "bytes": 1563373
+      }
+    },
+    "config_hash": "68ad484fba3c",
+    "config": {
+      "name": "convlstm_fusion",
+      "experiment": "chl-gapfill",
+      "task": "gapfill",
+      "input_days": 3,
+      "log_transform": true,
+      "seed": 42,
+      "region": {
+        "lat_bounds": [
+          22.95,
+          24.55
+        ],
+        "lon_bounds": [
+          118.1,
+          119.75
+        ]
+      },
+      "data": {
+        "train_nc": "Merged_VIIRS_CHL_Daily.nc",
+        "var_name": "chlor_a",
+        "input_sensors": null,
+        "fusion": true,
+        "min_coverage": 0.2,
+        "contiguous_windows": true,
+        "self_supervised": false,
+        "start": "2018-05-30",
+        "end": "2023-08-31"
+      },
+      "mask": {
+        "min_frac": 0.1,
+        "max_frac": 0.4,
+        "n_blobs": 3
+      },
+      "model": {
+        "name": "convlstm",
+        "hidden_channels": [
+          64,
+          32
+        ],
+        "kernel_size": 3,
+        "use_norm": true,
+        "dropout": 0.0
+      },
+      "training": {
+        "lr": 0.001,
+        "n_epochs": 1000,
+        "patience": 12,
+        "batch_size": 16,
+        "lr_schedule": true,
+        "grad_clip": null,
+        "num_threads": null,
+        "loss": {
+          "w_hole": 1.0,
+          "w_valid": 0.1,
+          "w_grad": 0.05
+        }
+      },
+      "split": {
+        "train_end": "2021-12-31",
+        "val_start": "2022-01-01",
+        "val_end": "2022-03-31",
+        "test_start": "2022-04-01",
+        "test_end": "2022-07-25",
+        "gap_days": 0
+      },
+      "smoke": false
+    },
+    "data": {
+      "target": {
+        "file": "Merged_VIIRS_CHL_Daily.nc",
+        "sha256": "3da78f49f6e62c3572f97bb95046062eb87fa381ec71f4d8cbb4d3c7ab34273a",
+        "bytes": 5135845
+      },
+      "sensors": {
+        "modis_aqua": {
+          "file": "modis_aqua.nc",
+          "sha256": "b7cf845ba78a01d1933cbe3a54feafca42583c86cb81b9affcca6ff70a9072aa",
+          "bytes": 9065200
+        },
+        "viirs_snpp": {
+          "file": "viirs_snpp.nc",
+          "sha256": "4a2b35133523b8dbcbd49362f957483ab72e968a4ec2cf672bfa15e13b44f2d9",
+          "bytes": 11321209
+        },
+        "viirs_noaa20": {
+          "file": "viirs_noaa20.nc",
+          "sha256": "4cebc76af71a9cc3e7b8e5b6857ebdb39f5ffff675df140022d026319a37bdb3",
+          "bytes": 5492691
+        }
+      },
+      "first_day": "2018-05-30",
+      "last_day": "2023-08-31",
+      "n_days": 1881,
+      "test_days": {
+        "first": "2022-04-01",
+        "last": "2022-07-25",
+        "n": 112
+      }
+    },
+    "versions": {
+      "chl_gapfill": "1.0.0",
+      "python": "3.12.1",
+      "numpy": "2.5.3",
+      "torch": "2.14.1+cpu"
+    }
+  }
+}

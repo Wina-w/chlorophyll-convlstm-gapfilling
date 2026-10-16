@@ -1,0 +1,8 @@
+# One-minute proof that the whole loop runs (CI / fresh clone). Not for results.
+name: convlstm_smoke
+experiment: chl-gapfill
+smoke: true
+input_days: 3
+model: {name: convlstm, hidden_channels: [16, 8], kernel_size: 3, use_norm: true}
+training: {lr: 0.001, n_epochs: 2, patience: 2, batch_size: 8, lr_schedule: true}
+split: {train_end: 2021-12-31, val_start: 2022-01-01, val_end: 2022-03-31, test_start: 2022-04-01, test_end: 2022-07-25, gap_days: 0}

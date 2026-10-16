@@ -1,0 +1,13 @@
+# Partial-convolution U-Net baseline (Liu et al. 2018) on the same data and holes.
+name: pconv_unet_fusion
+experiment: chl-gapfill
+task: gapfill
+input_days: 3
+log_transform: true
+seed: 42
+model:
+  name: pconv_unet
+  hidden_channels: [64, 32]    # base width = max(16, hidden_channels[0] // 2)
+  kernel_size: 3
+training: {lr: 0.001, n_epochs: 1000, patience: 12, batch_size: 16, lr_schedule: true}
+split: {train_end: 2021-12-31, val_start: 2022-01-01, val_end: 2022-03-31, test_start: 2022-04-01, test_end: 2022-07-25, gap_days: 0}
